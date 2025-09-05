@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Chess Academy Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>♔ Chess Academy Pro</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link active" data-section="dashboard">Dashboard</a></li>
+                <li><a href="#" class="nav-link" data-section="students">Students</a></li>
+                <li><a href="#" class="nav-link" data-section="detailed-reports">Detailed Reports</a></li>
+                <li><a href="#" class="nav-link" data-section="game-analysis">Game Analysis</a></li>
+                <li><a href="#" class="nav-link" data-section="puzzle-tracker">Puzzle Tracker</a></li>
+                <li><a href="#" class="nav-link" data-section="analytics">Analytics</a></li>
+                <li><a href="#" class="nav-link" data-section="coaches">Coaches</a></li>
+                <li><a href="#" class="nav-link" data-section="lichess">Lichess Sync</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="section-header">
+                    <h1>Enhanced Academy Dashboard</h1>
+                    <p class="section-subtitle">Comprehensive Chess Performance Management</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3 id="total-students">0</h3>
+                            <p>Active Students</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-info">
+                            <h3 id="avg-rating">0</h3>
+                            <p>Average Rating</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-info">
+                            <h3 id="avg-accuracy">0%</h3>
+                            <p>Average Accuracy</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🧩</div>
+                        <div class="stat-info">
+                            <h3 id="puzzles-solved">0</h3>
+                            <p>Puzzles Solved</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Recent Performance Highlights</h3>
+                        </div>
+                        <div class="card__body">
+                            <div id="performance-highlights">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Quick Actions</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="quick-actions">
+                                <button class="btn btn--primary" onclick="showSection('students')">View All Students</button>
+                                <button class="btn btn--secondary" onclick="showSection('detailed-reports')">Generate Reports</button>
+                                <button class="btn btn--outline" onclick="showSection('game-analysis')">Analyze Games</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Enhanced Students Section -->
+            <section id="students" class="content-section">
+                <div class="section-header">
+                    <h1>Student Management</h1>
+                    <button class="btn btn--primary" onclick="showAddStudentModal()">Add New Student</button>
+                </div>
+                
+                <div class="students-controls">
+                    <input type="text" id="student-search" class="form-control" placeholder="Search students...">
+                    <select id="coach-filter" class="form-control">
+                        <option value="">All Coaches</option>
+                    </select>
+                    <select id="rating-filter" class="form-control">
+                        <option value="">All Ratings</option>
+                        <option value="600-1000">600-1000</option>
+                        <option value="1000-1400">1000-1400</option>
+                        <option value="1400-1800">1400-1800</option>
+                        <option value="1800+">1800+</option>
+                    </select>
+                </div>
+
+                <div class="card">
+                    <div class="card__body">
+                        <div class="students-table-container">
+                            <table class="students-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>Age</th>
+                                        <th>Classical</th>
+                                        <th>Rapid</th>
+                                        <th>Blitz</th>
+                                        <th>Puzzles</th>
+                                        <th>Accuracy</th>
+                                        <th>Coach</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="students-tbody">
+                                    <!-- Student rows will be populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Detailed Reports Section -->
+            <section id="detailed-reports" class="content-section">
+                <div class="section-header">
+                    <h1>Detailed Individual Reports</h1>
+                    <div class="report-actions">
+                        <button class="btn btn--primary" onclick="showStudentReportModal()">Generate Individual Report</button>
+                        <button class="btn btn--secondary" onclick="exportAllReports()">Export All Reports</button>
+                    </div>
+                </div>
+
+                <div class="report-filters">
+                    <select id="report-student-filter" class="form-control">
+                        <option value="">All Students</option>
+                    </select>
+                    <select id="report-period-filter" class="form-control">
+                        <option value="current">Current Month</option>
+                        <option value="last-month">Last Month</option>
+                        <option value="last-3-months">Last 3 Months</option>
+                        <option value="all-time">All Time</option>
+                    </select>
+                </div>
+
+                <div class="detailed-reports-grid" id="detailed-reports-container">
+                    <!-- Detailed report cards will be populated by JS -->
+                </div>
+            </section>
+
+            <!-- Game Analysis Section -->
+            <section id="game-analysis" class="content-section">
+                <div class="section-header">
+                    <h1>Game Analysis System</h1>
+                    <button class="btn btn--primary" onclick="showGameImportModal()">Import Game</button>
+                </div>
+
+                <div class="analysis-controls">
+                    <select id="analysis-student-filter" class="form-control">
+                        <option value="">All Students</option>
+                    </select>
+                    <select id="time-control-filter" class="form-control">
+                        <option value="">All Time Controls</option>
+                        <option value="classical">Classical</option>
+                        <option value="rapid">Rapid</option>
+                        <option value="blitz">Blitz</option>
+                        <option value="bullet">Bullet</option>
+                    </select>
+                </div>
+
+                <div class="games-analysis-grid" id="games-container">
+                    <!-- Game analysis cards will be populated by JS -->
+                </div>
+            </section>
+
+            <!-- Puzzle Tracker Section -->
+            <section id="puzzle-tracker" class="content-section">
+                <div class="section-header">
+                    <h1>Puzzle Performance Tracker</h1>
+                </div>
+
+                <div class="puzzle-overview">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Overall Puzzle Statistics</h3>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="puzzle-overview-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="puzzle-details-grid" id="puzzle-details-container">
+                    <!-- Puzzle performance details will be populated by JS -->
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="content-section">
+                <div class="section-header">
+                    <h1>Advanced Analytics</h1>
+                </div>
+                
+                <div class="analytics-grid">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Rating Distribution by Time Control</h3>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="rating-distribution-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Average Accuracy by Rating</h3>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="accuracy-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Blunder Frequency Analysis</h3>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="blunder-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Puzzle Theme Mastery</h3>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="puzzle-themes-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Coaches Section -->
+            <section id="coaches" class="content-section">
+                <div class="section-header">
+                    <h1>Coach Management</h1>
+                </div>
+                
+                <div class="coaches-grid" id="coaches-container">
+                    <!-- Coach cards will be populated by JS -->
+                </div>
+            </section>
+
+            <!-- Lichess Integration Section -->
+            <section id="lichess" class="content-section">
+                <div class="section-header">
+                    <h1>Lichess Integration & Sync</h1>
+                </div>
+                
+                <div class="sync-dashboard">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Sync Status</h3>
+                            <div class="status status--success">Connected</div>
+                        </div>
+                        <div class="card__body">
+                            <p>Last sync: September 5, 2025 at 4:30 PM</p>
+                            <p>Next automatic sync: September 6, 2025 at 6:00 AM</p>
+                            <div class="sync-actions">
+                                <button class="btn btn--primary" onclick="performFullSync()">Sync Now</button>
+                                <button class="btn btn--secondary" onclick="showSyncSettings()">Configure</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Data Validation</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="validation-item">
+                                <span>Student profiles:</span>
+                                <span class="status status--success">Valid</span>
+                            </div>
+                            <div class="validation-item">
+                                <span>Rating histories:</span>
+                                <span class="status status--success">Valid</span>
+                            </div>
+                            <div class="validation-item">
+                                <span>Game records:</span>
+                                <span class="status status--warning">3 pending</span>
+                            </div>
+                            <div class="validation-item">
+                                <span>Puzzle data:</span>
+                                <span class="status status--success">Valid</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sync-history">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Recent Sync Activity</h3>
+                        </div>
+                        <div class="card__body">
+                            <div id="sync-history-container">
+                                <!-- Sync history populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Enhanced Student Profile Modal -->
+    <div id="student-profile-modal" class="modal hidden">
+        <div class="modal-content extra-large">
+            <div class="modal-header">
+                <h3 id="profile-student-name">Student Profile</h3>
+                <button class="modal-close" onclick="hideModal('student-profile-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="student-profile-content">
+                    <!-- Profile content populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Report Modal -->
+    <div id="student-report-modal" class="modal hidden">
+        <div class="modal-content extra-large">
+            <div class="modal-header">
+                <h3>Generate Detailed Report</h3>
+                <button class="modal-close" onclick="hideModal('student-report-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Select Student</label>
+                    <select id="report-modal-student-select" class="form-control">
+                        <option value="">Choose Student</option>
+                    </select>
+                </div>
+                <div id="report-preview-container">
+                    <!-- Report preview populated by JS -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" onclick="hideModal('student-report-modal')">Cancel</button>
+                <button class="btn btn--secondary" onclick="exportReportPDF()">Export PDF</button>
+                <button class="btn btn--primary" onclick="sendReportEmail()">Send to Parent</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Analysis Modal -->
+    <div id="game-analysis-modal" class="modal hidden">
+        <div class="modal-content extra-large">
+            <div class="modal-header">
+                <h3 id="game-analysis-title">Game Analysis</h3>
+                <button class="modal-close" onclick="hideModal('game-analysis-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="game-analysis-content">
+                    <!-- Game analysis content populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Import Modal -->
+    <div id="game-import-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Import Game for Analysis</h3>
+                <button class="modal-close" onclick="hideModal('game-import-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Student</label>
+                    <select id="import-student-select" class="form-control">
+                        <option value="">Select Student</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Import Method</label>
+                    <select id="import-method" class="form-control">
+                        <option value="lichess">Lichess Game URL</option>
+                        <option value="pgn">PGN Text</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Game Data</label>
+                    <textarea id="game-data-input" class="form-control" rows="8" placeholder="Paste Lichess URL or PGN data here..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" onclick="hideModal('game-import-modal')">Cancel</button>
+                <button class="btn btn--primary" onclick="importGame()">Import & Analyze</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal (Enhanced) -->
+    <div id="add-student-modal" class="modal hidden">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Add New Student</h3>
+                <button class="modal-close" onclick="hideModal('add-student-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-student-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Age</label>
+                            <input type="number" name="age" class="form-control" min="5" max="18" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Lichess Username</label>
+                            <input type="text" name="lichessUsername" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Assigned Coach</label>
+                        <select name="coach" class="form-control" required id="coach-select">
+                            <!-- Options populated by JS -->
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" onclick="hideModal('add-student-modal')">Cancel</button>
+                <button class="btn btn--primary" onclick="addStudent()">Add Student</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
